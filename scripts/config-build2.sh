@@ -14,3 +14,13 @@ if [[ -z "$1" ]]; then
 fi
 
 echo "Configuring build2 for $1"
+
+function config_check {
+  bdep status @release > /dev/null 2>&1
+}
+
+if ! config_check; then
+  bdep init -C "../.build2/configs/$1-release" \
+    @release \
+    cc config.cxx=clang++
+fi
